@@ -7,6 +7,8 @@ void insertSort(int a[], int);
 void selectSort(int a[], int);
 void mergeSort(int a[], int, int);
 void merge(int a[], int, int, int);
+void shellSort(int a[], int);
+
 int main() {
 	int index;
 	cout << "please choose the sort type" << endl;
@@ -15,6 +17,7 @@ int main() {
 	cout << "3.insertSort" << endl;
 	cout << "4.selectSort" << endl;
 	cout << "5.mergeSort" << endl;
+	cout << "6.shellSort" << endl;
 	cin >> index;
 	int array[] = { 34, 65, 12, 43, 67, 5, 78, 10, 3, 70 }, k;
 	int len = sizeof(array) / sizeof(int);
@@ -47,6 +50,10 @@ int main() {
 	case 5:
 		mergeSort(array, 0, len - 1);
 		cout << "the result of mergeSort are:" << endl;
+		break;
+	case 6:
+		shellSort(array, len);
+		cout << "the result of shellSort are:" << endl;
 		break;
 	default:
 		break;
@@ -100,7 +107,8 @@ void insertSort(int array[], int len) {
 		for (int j = i - 1; j >= 0; --j) {
 			if (temp < array[j]) {
 				array[j + 1] = array[j];
-			} else {
+			}
+			else {
 				tag = 1;
 				array[j + 1] = temp;
 				break;
@@ -132,7 +140,8 @@ void merge(int array[], int l, int m, int r) {
 	while (i <= m && j <= r) {
 		if (array[i] <= array[j]) {
 			temp[k++] = array[i++];
-		} else {
+		}
+		else {
 			temp[k++] = array[j++];
 		}
 	}
@@ -156,4 +165,18 @@ void mergeSort(int array[], int l, int r) {
 	mergeSort(array, l, mid);
 	mergeSort(array, mid + 1, r);
 	merge(array, l, mid, r);
+}
+
+void shellSort(int array[], int len) {
+	for (int gap = len / 2; gap > 0; gap /= 2) {
+		for (int i = gap; i < len; ++i) {
+			int j = i;
+			while (j - gap >= 0 && array[j - gap] > array[j]) {
+				array[j - gap] = array[j - gap] + array[j];
+				array[j] = array[j - gap] - array[j];
+				array[j - gap] = array[j - gap] - array[j];
+				j -= gap;
+			}
+		}
+	}
 }
